@@ -8,17 +8,14 @@ async function testSearch() {
     await driver.get("https://project-youtube-clone-app.vercel.app/search/sport");
     // Select input elements and fill them out
     await driver.findElement(By.className("search-bar")).sendKeys("sport");
-    // await driver.findElement(By.id("password")).sendKeys("Password@12345");
-    // // Select login button and invoke click action
-    // //If login details are correct we wiil be redirected to the welcome page
-    // await driver.findElement(By.name("login")).click();
-    // //On succesful login get page title
-    // //Check page title, to confirm login was successful
-    // const pageTitle = await driver.getTitle();
-    // // assert usign node assertion
-    // assert.strictEqual(pageTitle, "Welcomepage");
-    // //Check if redirect to login page was successfull
-     await driver.wait(until.titleIs("Welcomepage"), 4000);
+    // Find the search button and click it
+    await driver.findElement(By.css("[data-testid='SearchIcon']")).click();
+  
+    // check that "Search Result for" is present in the page source
+    await driver.wait(until.elementLocated(By.xpath("//*[contains(text(), 'Search Result for')]"), 5000), 10000);
+    // check that div with data-testid videos-container is present
+    await driver.wait(until.elementLocated(By.css("[data-testid='videos-container']")), 10000);
+
   } finally {
     await driver.quit();
   }
